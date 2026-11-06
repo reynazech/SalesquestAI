@@ -1,0 +1,197 @@
+// Level 1: The First Pitch — fixed, rule-based scenario data.
+// Each question is worth up to 20 points (5 x 20 = 100).
+// trust / patience are deltas applied to Sarah's meters (0–100).
+
+export const START_TRUST = 40
+export const START_PATIENCE = 60
+
+export const scenario = {
+  title: 'The First Pitch',
+  buyer: 'Sarah Chen',
+  role: 'Operations Manager, Brightline Logistics',
+  brief:
+    'You are a junior B2B sales rep selling FlowDesk, a productivity and reporting tool. Sarah runs operations at a fast-growing company. She is busy, skeptical, watching costs, and already evaluating a cheaper competitor.',
+}
+
+export const questions = [
+  {
+    id: 'q1',
+    stage: 'The Opening',
+    prompt: '“I’ve honestly got about two minutes. What’s this about?”',
+    options: [
+      {
+        key: 'A',
+        text: 'Thanks for your time, Sarah! FlowDesk has task automation, live dashboards, 200+ integrations and AI reporting — let me quickly run through the main features.',
+        score: 6,
+        trust: -5,
+        patience: -15,
+        reaction: 'Sarah glances at her watch. “That’s a lot of features. I still don’t know why any of it matters to me.”',
+        improve: 'You opened with a feature list. With a busy buyer, lead with a relevant problem, not product specs.',
+        tip: 'Use a 20-second opener: a problem teams like theirs have, and a reason to keep talking.',
+      },
+      {
+        key: 'B',
+        text: 'Understood, I’ll keep it tight. Ops teams growing as fast as yours often lose hours each week chasing status updates across tools. If that sounds familiar, it may be worth a proper chat; if not, I’ll let you go.',
+        score: 20,
+        trust: 15,
+        patience: 5,
+        reaction: 'Sarah pauses. “…Okay, that does sound familiar. Go on.”',
+        good: 'You respected Sarah’s time and opened with a relevant problem instead of a pitch.',
+      },
+      {
+        key: 'C',
+        text: 'No problem at all — would it be easier to book 30 minutes later this week so we can do this properly?',
+        score: 10,
+        trust: 0,
+        patience: -5,
+        reaction: '“My calendar’s full for weeks. If it’s worth hearing, tell me now.”',
+        improve: 'You tried to postpone instead of earning attention in the moment you had.',
+        tip: 'A short window is still a window. Earn the next meeting by being useful now.',
+      },
+    ],
+  },
+  {
+    id: 'q2',
+    stage: 'Discovery',
+    prompt: '“Fine. We’re growing fast and, honestly, things are a bit chaotic.”',
+    options: [
+      {
+        key: 'A',
+        text: 'Chaos is exactly what FlowDesk fixes. Our platform streamlines workflows across your whole operation from day one.',
+        score: 6,
+        trust: -10,
+        patience: -10,
+        reaction: '“You don’t even know what our problem is yet.” Her arms fold.',
+        improve: 'You pitched a solution before understanding Sarah’s actual problem.',
+        tip: 'Diagnose before you prescribe. Ask about impact before mentioning the product.',
+      },
+      {
+        key: 'B',
+        text: 'Got it. Are you having problems with project tracking at the moment?',
+        score: 12,
+        trust: 0,
+        patience: -5,
+        reaction: '“Sort of, yes.” A short answer. You learned very little.',
+        improve: 'You asked a closed yes/no question, so Sarah gave you a yes/no answer.',
+        tip: 'Open questions (“what”, “how”, “walk me through”) get buyers to share real detail.',
+      },
+      {
+        key: 'C',
+        text: 'What does “chaotic” look like day to day — where is your team losing the most time, and what is that costing you?',
+        score: 20,
+        trust: 10,
+        patience: 5,
+        reaction: '“Weekly reporting. My leads spend about six hours a week pulling numbers from spreadsheets. It’s delaying our Q3 planning.”',
+        good: 'You asked an open discovery question and uncovered a specific, costly pain point.',
+      },
+    ],
+  },
+  {
+    id: 'q3',
+    stage: 'The Competitor',
+    prompt: '“To be honest, we’re also looking at TaskFlow. They’re about 20% cheaper.”',
+    options: [
+      {
+        key: 'A',
+        text: 'That’s a fair thing to compare. The bigger question is which option removes those six hours of manual reporting fastest. That’s where we differ most, and I’m happy to show both side by side so you can judge.',
+        score: 20,
+        trust: 15,
+        patience: 5,
+        reaction: '“Okay — that’s a more useful way to compare them than price alone.”',
+        good: 'You reframed price as value, tied it to Sarah’s own pain point, and stayed respectful of the competitor.',
+      },
+      {
+        key: 'B',
+        text: 'I can probably match their price if you’re able to sign this month.',
+        score: 8,
+        trust: -5,
+        patience: 0,
+        reaction: '“So your original price wasn’t real?” She sounds less sure about you.',
+        improve: 'You discounted immediately, which reduced the perceived value of the product.',
+        tip: 'Don’t lead with a discount. Anchor on the cost of the problem first.',
+      },
+      {
+        key: 'C',
+        text: 'TaskFlow is fine for small teams, but we’ve heard a lot of customers have reliability issues with them.',
+        score: 10,
+        trust: -10,
+        patience: -5,
+        reaction: '“Hm. Their team said something similar about you.” Trust dips.',
+        improve: 'You criticised a competitor, which can sound defensive and hurt credibility.',
+        tip: 'Never knock the competition. Compare on the buyer’s priorities instead.',
+      },
+    ],
+  },
+  {
+    id: 'q4',
+    stage: 'The Recovery',
+    prompt: '“Look, I’m not sure this is a priority right now. I should jump to my next meeting.”',
+    options: [
+      {
+        key: 'A',
+        text: 'Totally understand. I’ll email over our brochure and you can reach out whenever the timing is better.',
+        score: 8,
+        trust: 0,
+        patience: 5,
+        reaction: '“Sure, send it over.” You both know it will sit unread.',
+        improve: 'You accepted the brush-off without reconnecting to the problem Sarah described.',
+        tip: 'Before letting go, remind the buyer of their own stated pain and its cost.',
+      },
+      {
+        key: 'B',
+        text: 'Just give me five more minutes — I really think you’ll love what you see in the demo.',
+        score: 4,
+        trust: -10,
+        patience: -20,
+        reaction: '“I said I have a meeting.” Her patience is nearly gone.',
+        improve: 'You pushed past Sarah’s boundary, which costs trust and patience.',
+        tip: 'Pressure rarely works on busy buyers. Respect the boundary and make one relevant point.',
+      },
+      {
+        key: 'C',
+        text: 'Of course. One thought before you go: if the reporting backlog delays Q3 planning again, that’s another quarter of six-hour weeks for your leads. A short look now could save that.',
+        score: 20,
+        trust: 10,
+        patience: 0,
+        reaction: 'Sarah stops. “…That would be a real problem. Okay, I have one more minute.”',
+        good: 'You recovered by linking urgency to Sarah’s own words, without pressure.',
+      },
+    ],
+  },
+  {
+    id: 'q5',
+    stage: 'The Next Step',
+    prompt: '“Okay… that is a real problem. What would you suggest?”',
+    options: [
+      {
+        key: 'A',
+        text: 'Great! I can send the contract over today and have your team onboarded by Monday.',
+        score: 8,
+        trust: -10,
+        patience: -5,
+        reaction: '“Whoa — I haven’t seen it yet, and I can’t sign anything without my director.”',
+        improve: 'You tried to close the deal before the buyer was ready or the decision-maker was involved.',
+        tip: 'Match the ask to the stage. Early calls should secure a clear next step, not a signature.',
+      },
+      {
+        key: 'B',
+        text: 'Let’s book 30 minutes on Thursday with you and one of your team leads. I’ll bring a demo built around your weekly reporting, and you can decide whether a two-week pilot makes sense.',
+        score: 20,
+        trust: 10,
+        patience: 5,
+        reaction: '“Thursday at 2 works. Bring the reporting example.” She sends a calendar invite.',
+        good: 'You proposed a specific, low-risk next step with a date, the right people and a clear purpose.',
+      },
+      {
+        key: 'C',
+        text: 'Why don’t you have a think about it and let me know if you’re interested?',
+        score: 6,
+        trust: 0,
+        patience: 0,
+        reaction: '“Sure, I’ll let you know.” There is no follow-up date.',
+        improve: 'You ended without a concrete next step, so momentum is likely to fade.',
+        tip: 'Always leave with a dated next step that the buyer has agreed to.',
+      },
+    ],
+  },
+]
