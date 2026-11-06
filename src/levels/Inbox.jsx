@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSim } from './useSim'
 import { Catalogue, CrmPanel, EngineBadge, NextStepBooker, QuoteBuilder, Signals } from './tools'
+import HintsPanel from './HintsPanel'
 
 // Level 2: industry-appropriate inbound inbox. The channel decides the look:
 // DM-style chat for social/WhatsApp/web chat, email threads for RFQs.
@@ -49,6 +50,7 @@ export default function Inbox({ session, setSession, onFinished }) {
   const [text, setText] = useState('')
   const [tab, setTab] = useState('catalogue')
   const endRef = useRef(null)
+  const composerRef = useRef(null)
   const theme = themes[session.channel] || themes['WhatsApp Business']
   const c = session.customer
   const typing = busy
@@ -96,6 +98,7 @@ export default function Inbox({ session, setSession, onFinished }) {
         {error && <p role="alert" className="border-t border-coral/40 bg-coral/10 px-4 py-2 text-sm text-coral">{error}</p>}
         <form onSubmit={submit} className="flex items-end gap-2 border-t border-line p-3">
           <textarea
+            ref={composerRef}
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => {
@@ -122,7 +125,7 @@ export default function Inbox({ session, setSession, onFinished }) {
       <aside className="space-y-3">
         <Signals meters={session.meters} />
         <div className="flex gap-1 rounded-xl border border-line bg-ink p-1 text-xs font-bold">
-          {[['catalogue', 'Products'], ['quote', 'Quote'], ['crm', 'CRM'], ['book', 'Book']].map(([id, label]) => (
+          {[['catalogue', 'Products'], ['quote', 'Quote'], ['crm', 'CRM'], ['book', 'Book'], ['hints', '💡 Hints']].map(([id, label]) => (
             <button key={id} onClick={() => setTab(id)} className={`flex-1 rounded-lg px-2 py-2 ${tab === id ? 'bg-violet' : 'text-muted hover:text-cream'}`}>
               {label}
             </button>
@@ -134,6 +137,17 @@ export default function Inbox({ session, setSession, onFinished }) {
         {tab === 'quote' && <QuoteBuilder products={session.products} busy={busy} onQuote={(q) => act('quote', q)} />}
         {tab === 'crm' && <CrmPanel crm={session.crm} busy={busy} terminology={session.pack.terminology} onSave={(crm) => act('crm_update', { crm })} />}
         {tab === 'book' && <NextStepBooker types={session.pack.nextStepTypes} busy={busy} agreed={session.agreedNextStep} onBook={(b) => act('book_next_step', b)} />}
+        {tab === 'hints' && (
+          <HintsPanel
+            level={2}
+            packId={session.pack.id}
+            customerName={c.name}
+            onInsert={(t) => {
+              setText(t)
+              composerRef.current?.focus()
+            }}
+          />
+        )}
       </aside>
     </div>
   )

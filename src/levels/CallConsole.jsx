@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSim } from './useSim'
 import { CrmPanel, EngineBadge, NextStepBooker, Panel, Signals } from './tools'
+import HintsPanel from './HintsPanel'
 import { listen, localeFor, requestMicrophone, speak, stopSpeaking, voiceSupport } from '../voice/browserSpeech'
 
 const MIC_ERRORS = {
@@ -38,6 +39,7 @@ export default function CallConsole({ session, setSession, onFinished }) {
   const [tab, setTab] = useState('notes')
   const ctrl = useRef(null)
   const held = useRef(false)
+  const textRef = useRef(null)
   const lastSpoken = useRef(session.transcript.length)
   const captionsEnd = useRef(null)
   const timer = useCallTimer()
@@ -181,7 +183,7 @@ export default function CallConsole({ session, setSession, onFinished }) {
             </p>
           )}
           <form onSubmit={submitText} className="flex gap-2">
-            <input value={text} onChange={(e) => setText(e.target.value)} maxLength={1200} placeholder="Or type what you’d say…" aria-label="Type your reply" className="h-11 flex-1 rounded-xl border border-line bg-ink-2 px-3 text-sm focus:border-violet focus:outline-none" />
+            <input ref={textRef} value={text} onChange={(e) => setText(e.target.value)} maxLength={1200} placeholder="Or type what you’d say…" aria-label="Type your reply" className="h-11 flex-1 rounded-xl border border-line bg-ink-2 px-3 text-sm focus:border-violet focus:outline-none" />
             <button disabled={busy || !text.trim()} className="h-11 rounded-xl bg-violet px-4 font-bold disabled:opacity-40">Say</button>
           </form>
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
@@ -203,7 +205,7 @@ export default function CallConsole({ session, setSession, onFinished }) {
           </Panel>
         )}
         <div className="flex gap-1 rounded-xl border border-line bg-ink p-1 text-xs font-bold">
-          {[['notes', 'Notes'], ['crm', 'CRM'], ['book', 'Book']].map(([id, label]) => (
+          {[['notes', 'Notes'], ['crm', 'CRM'], ['book', 'Book'], ['hints', '💡 Hints']].map(([id, label]) => (
             <button key={id} onClick={() => setTab(id)} className={`flex-1 rounded-lg px-2 py-2 ${tab === id ? 'bg-violet' : 'text-muted hover:text-cream'}`}>{label}</button>
           ))}
         </div>
@@ -214,6 +216,17 @@ export default function CallConsole({ session, setSession, onFinished }) {
         )}
         {tab === 'crm' && <CrmPanel crm={session.crm} busy={busy} terminology={session.pack.terminology} onSave={(crm) => act('crm_update', { crm })} />}
         {tab === 'book' && <NextStepBooker types={session.pack.nextStepTypes} busy={busy} agreed={session.agreedNextStep} onBook={(b) => act('book_next_step', b)} />}
+        {tab === 'hints' && (
+          <HintsPanel
+            level={3}
+            packId={session.pack.id}
+            customerName={c.name}
+            onInsert={(t) => {
+              setText(t)
+              textRef.current?.focus()
+            }}
+          />
+        )}
       </aside>
     </div>
   )

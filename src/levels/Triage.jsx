@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useSim } from './useSim'
 import { EngineBadge, Panel } from './tools'
+import HintsPanel from './HintsPanel'
 
 // Level 4: Lead Command Center. Scores reflect only the evidence the player
 // has gathered; they are training heuristics, not win probabilities.
@@ -194,6 +195,16 @@ export default function Triage({ session, setSession, onFinished }) {
               )}
             </Panel>
           )}
+
+          <HintsPanel
+            level={4}
+            packId={session.pack.id}
+            onInsert={(t, target) => {
+              if (target === 'justification' && investigating) setJustification(t)
+              else if (target === 'reply' && session.phase === 'challenge') setReply(t)
+              else if (target === 'message' && investigating) setMsg(t)
+            }}
+          />
         </div>
       </div>
     </div>
