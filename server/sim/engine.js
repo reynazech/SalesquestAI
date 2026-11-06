@@ -286,8 +286,8 @@ export function evaluateConversation(session, pack) {
   const booked = actions.find((a) => a.type === 'book_next_step')
   let nextSteps = 15
   if (booked) {
-    nextSteps = st.trust >= 50 ? 100 : 60
-    add('nextSteps', st.trust >= 50 ? 'good' : 'gap', `Booked: ${booked.kind} on ${booked.when}${st.trust < 50 ? ' (customer was still unconvinced)' : ''}`)
+    nextSteps = st.trust >= 40 ? 100 : 70
+    add('nextSteps', st.trust >= 40 ? 'good' : 'gap', `Booked: ${booked.kind} on ${booked.when}${st.trust < 40 ? ' (customer was still unconvinced)' : ''}`)
   } else {
     const proposed = analyses.find((x) => x.a.nextStep)
     if (proposed) (nextSteps = 55), add('nextSteps', 'gap', `Proposed a next step but did not book it: ${quote(proposed.m.text)}`)

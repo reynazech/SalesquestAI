@@ -18,11 +18,12 @@ import {
 import { customerReply, leadReply, managerChallenge, coachNarrative, aiEnabled } from './customer.js'
 import { getLevel, isPremiumLevel, missionCopy, formatMoney } from '../../src/training/levels.js'
 import { requireAuth } from '../auth.js'
+import { conversationObjectives, conversationTip, triageObjectives, triageTip, RULES } from './coach.js'
 
 const SIM_LEVELS = [2, 3, 4]
 const MAX_TURNS = 40
-const L4_CONTACTS = 8
-const L4_RESEARCH = 2
+const L4_CONTACTS = 12
+const L4_RESEARCH = 5
 
 export function userTier(db, userId) {
   const row = db
@@ -85,6 +86,7 @@ export function createSimRouter({ db, isAdmin }) {
       actions: s.state.actions,
       report: s.report,
       industryOverride: s.state.industryOverride || null,
+      rules: RULES[s.level],
     }
     if (s.level === 4) {
       const st = s.state
@@ -97,6 +99,10 @@ export function createSimRouter({ db, isAdmin }) {
         crm: st.crm,
         justification: st.justification,
         manager: st.manager,
+        ...(() => {
+          const objectives = triageObjectives(s, pack)
+          return { objectives, coach: triageTip(s, pack, objectives) }
+        })(),
         leads: pack.leads.map((l) => {
           const disc = st.discovered[l.id] || []
           return {
@@ -112,6 +118,7 @@ export function createSimRouter({ db, isAdmin }) {
         }),
       }
     }
+    if (s.level >= 5) return base
     const c = pack.customer
     return {
       ...base,
@@ -122,6 +129,10 @@ export function createSimRouter({ db, isAdmin }) {
       memory: s.state.memorySummary || null,
       agreedNextStep: s.state.customer.agreedNextStep,
       turnsLeft: MAX_TURNS - s.transcript.filter((m) => m.from === 'player').length,
+      ...(() => {
+        const objectives = conversationObjectives(s, pack)
+        return { objectives, coach: conversationTip(s, pack, objectives) }
+      })(),
     }
   }
 
@@ -332,7 +343,7 @@ export function createSimRouter({ db, isAdmin }) {
         const when = String(req.body.when || '').slice(0, 40)
         if (!pack.nextStepTypes.includes(kind) || !when) return res.status(400).json({ error: 'Choose a next step type and a date/time' })
         const c = st.customer
-        if (!c.agreedNextStep && c.trust < 55) {
+        if (!c.agreedNextStep && c.trust < 45) {
           s.transcript.push({ from: 'customer', text: 'I’m not ready to put that in the calendar yet.', at: Date.now() })
           st.actions.push({ type: 'book_declined', kind, when, turn })
           break

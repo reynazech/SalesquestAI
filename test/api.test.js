@@ -204,3 +204,57 @@ test('industry preview is admin-only and never edits the profile', async () => {
   assert.equal(s.channel, 'Email RFQ inbox')
   assert.equal((await c('GET', '/me')).data.activeProfile.profile.industry, 'retail')
 })
+
+test('guided missions (Levels 5-15): premium gate, hidden answers, checking and scoring', async () => {
+  const c = client()
+  await c('POST', '/auth/dev', { email: 'missions@example.test' })
+  await c('POST', '/profiles', { profile: profile('industrial', { market: 'b2b' }) })
+  assert.equal((await c('GET', '/missions/5')).status, 402, 'premium required')
+  const o = (await c('POST', '/billing/orders')).data
+  await c('POST', `/billing/orders/${o.id}/pay`, { method: 'demo_wallet' })
+
+  for (let n = 5; n <= 15; n++) {
+    const m = await c('GET', `/missions/${n}`)
+    assert.equal(m.status, 200, `level ${n}`)
+    const raw = JSON.stringify(m.data)
+    assert.ok(!/"(correct|explain|top|bottom)":/.test(raw), `level ${n} must not leak answers`)
+    assert.ok(m.data.rules.length >= 2 && m.data.steps.length >= 3)
+  }
+
+  const m5 = (await c('GET', '/missions/5')).data
+  const pick = m5.steps.find((s) => s.id === 'pick')
+  const wrong = await c('POST', '/missions/5/check', { stepId: 'pick', answer: ['cv200'] })
+  assert.equal(wrong.data.correct, false)
+  const right = await c('POST', '/missions/5/check', { stepId: 'pick', answer: ['cv350'] })
+  assert.equal(right.data.correct, true)
+  assert.ok(pick.options.length === 4)
+  const pushy = await c('POST', '/missions/5/check', { stepId: 'explain', answer: 'Buy now, it is guaranteed the best in the market because it is rated high.' })
+  assert.equal(pushy.data.correct, false, 'pressure language fails a write step')
+  assert.equal((await c('POST', '/missions/10/check', { stepId: 'offer', answer: { discount: 30 } })).data.correct, false, 'discount above limit is rejected')
+  assert.equal((await c('POST', '/missions/10/check', { stepId: 'offer', answer: { discount: 8 } })).data.correct, true)
+
+  const done = await c('POST', '/missions/5/complete', {
+    answers: { pick: ['cv350'], features: ['f0', 'f1'], explain: 'The CV-350 fits because it is rated for high flow and tested to ISO 9906.', close: ['a'] },
+    hintsUsed: 1,
+  })
+  assert.equal(done.status, 201)
+  assert.equal(done.data.score, 98, 'perfect answers minus one hint')
+  const rep = (await c('GET', `/sim/${done.data.id}`)).data
+  assert.equal(rep.level, 5)
+  assert.ok(rep.report.dims.length >= 2 && rep.report.dims.every((d) => d.evidence.length))
+  const prog = (await c('GET', '/progress')).data
+  assert.ok(prog.some((p) => p.scenarioId === 'level-5' && p.bestScore === 98))
+})
+
+test('Levels 2-4 expose a coach tip, objectives and rules', async () => {
+  const c = client()
+  await c('POST', '/auth/dev', { email: 'coach@example.test' })
+  await c('POST', '/profiles', { profile: profile('retail') })
+  let s = (await c('POST', '/sim/start', { level: 2 })).data
+  assert.equal(s.objectives.length, 8)
+  assert.ok(s.rules.length >= 3)
+  assert.match(s.coach.text, /need/i)
+  s = (await c('POST', `/sim/${s.id}/message`, { text: s.coach.example })).data
+  assert.ok(s.objectives.find((o) => o.id === 'need').done, 'following the coach progresses an objective')
+  assert.doesNotMatch(s.coach.text, /what they need it for/i)
+})

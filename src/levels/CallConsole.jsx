@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSim } from './useSim'
 import { CrmPanel, EngineBadge, NextStepBooker, Panel, Signals } from './tools'
 import HintsPanel from './HintsPanel'
+import CoachBar from './CoachBar'
 import { listen, localeFor, requestMicrophone, speak, stopSpeaking, voiceSupport } from '../voice/browserSpeech'
 
 const MIC_ERRORS = {
@@ -110,7 +111,9 @@ export default function CallConsole({ session, setSession, onFinished }) {
   const brief = session.transcript.find((m) => m.from === 'system')
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
+    <>
+    <CoachBar coach={session.coach} objectives={session.objectives} rules={session.rules} onUse={(t) => (setText(t), textRef.current?.focus())} />
+    <div className="grid gap-4 lg:grid-cols-[1fr_340px] [&>*]:min-w-0">
       <div className="flex min-h-[70vh] flex-col overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-ink-2 to-ink">
         {/* Call header */}
         <div className="flex items-center gap-4 border-b border-line px-5 py-4">
@@ -229,5 +232,6 @@ export default function CallConsole({ session, setSession, onFinished }) {
         )}
       </aside>
     </div>
+    </>
   )
 }

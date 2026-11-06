@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSim } from './useSim'
 import { EngineBadge, Panel } from './tools'
 import HintsPanel from './HintsPanel'
+import CoachBar from './CoachBar'
 
 // Level 4: Lead Command Center. Scores reflect only the evidence the player
 // has gathered; they are training heuristics, not win probabilities.
@@ -65,6 +66,12 @@ export default function Triage({ session, setSession, onFinished }) {
 
   return (
     <div className="space-y-4">
+      <CoachBar
+        coach={session.coach}
+        objectives={session.objectives}
+        rules={session.rules}
+        onUse={(t) => (session.phase === 'investigate' && t.startsWith('My #1') ? setJustification(t) : session.phase === 'challenge' ? setReply(t) : setMsg(t))}
+      />
       <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-ink px-4 py-3 text-sm">
         <span className="font-display font-bold">🎯 Lead Command Center</span>
         <span className="rounded-full bg-ink-3 px-3 py-1 font-mono text-xs">📨 {session.contactsLeft} contacts left</span>
@@ -74,7 +81,7 @@ export default function Triage({ session, setSession, onFinished }) {
       </div>
       {error && <p role="alert" className="rounded-xl bg-coral/10 px-4 py-2 text-sm text-coral">{error}</p>}
 
-      <div className="grid gap-4 lg:grid-cols-[300px_1fr_300px]">
+      <div className="grid gap-4 lg:grid-cols-[300px_1fr_300px] [&>*]:min-w-0">
         {/* Lead list */}
         <div className="space-y-2">
           {session.leads.map((l) => (

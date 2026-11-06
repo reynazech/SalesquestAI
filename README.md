@@ -13,7 +13,10 @@ free-form missions instead of quizzes.
 | 2 | Social Sales Inbox (free-text chat, product cards, CRM) | Free | Playable |
 | 3 | Call Console (push-to-talk voice, captions, text fallback) | Free | Playable |
 | 4 | Lead Triage War Room (evidence-based lead scoring) | Premium | Playable |
-| 5–15 | Showroom, Ghosted Lead, Negotiation, RFQ, Enterprise… | Premium | Planned |
+| 5–15 | Guided missions: Showroom, Ghosted Lead, Referral Network, Complaint Desk, Exhibition Floor, Negotiation Desk, Corporate Demo, RFQ, Pipeline Review, Enterprise Deal, Sales Ops Cockpit | Premium | Playable |
+
+Levels 2–4 show a live coach, objectives and rules. Levels 5–15 are short guided
+missions with instant feedback, hints and unlimited retries, checked on the server.
 
 Missions adapt to the learner's onboarding profile: retail, SaaS, real estate
 and industrial packs change the company, products, prices (by region),

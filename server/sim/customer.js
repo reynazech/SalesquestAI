@@ -137,7 +137,7 @@ function scriptedReply({ persona, state, analysis, event, objections, level }) {
   const order = ['need', 'timeline', 'decision', 'budget', 'competitor']
   for (const t of order) {
     if (!a.topics.includes(t) || state.revealed.includes(t)) continue
-    if ((t === 'budget' || t === 'competitor') && state.trust < 40) {
+    if ((t === 'budget' || t === 'competitor') && state.trust < 25) {
       parts.push('I’d rather not get into numbers yet.')
       continue
     }
@@ -155,7 +155,7 @@ function scriptedReply({ persona, state, analysis, event, objections, level }) {
   }
 
   if (a.nextStep) {
-    if (state.trust + out.trust_delta >= 50 && state.revealed.length + out.revealed.length >= 2) {
+    if (state.trust + out.trust_delta >= 40 && state.revealed.length + out.revealed.length >= 1) {
       out.agrees_to_next_step = true
       out.intent_delta += 10
       parts.push(pick(['Yes, let’s do that. Please send me the details.', 'Okay, that works for me.'], seed))

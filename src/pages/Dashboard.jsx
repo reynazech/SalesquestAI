@@ -171,7 +171,7 @@ export default function Dashboard() {
               <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-lime">Career map</p>
               <h2 className="mt-2 font-display text-2xl font-bold sm:text-3xl">15 levels from rookie to sales ops</h2>
             </div>
-            <p className="text-xs text-muted">Levels 1–4 are playable. Levels 5–15 are planned and not yet built.</p>
+            <p className="text-xs text-muted">All 15 levels are playable. Levels 1–3 are free.</p>
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
             {levels.map((l) => (

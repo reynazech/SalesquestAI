@@ -9,6 +9,8 @@ import Game from '../components/Game'
 import Inbox from '../levels/Inbox'
 import CallConsole from '../levels/CallConsole'
 import Triage from '../levels/Triage'
+import Mission from '../levels/Mission'
+import { RULES } from '../training/rules'
 
 const workspaces = { 2: Inbox, 3: CallConsole, 4: Triage }
 
@@ -37,21 +39,6 @@ export function LockedLevel({ level, packId }) {
           💎 Unlock Premium (demo checkout)
         </Link>
         <p className="mt-3 text-xs text-muted">Levels 1–3 are free forever.</p>
-      </div>
-    </Shell>
-  )
-}
-
-function PlannedLevel({ level }) {
-  return (
-    <Shell>
-      <div className="rounded-[2rem] border border-dashed border-line bg-ink-2/70 p-8 text-center sm:p-12">
-        <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-muted">Level {level.n} · Planned</p>
-        <h1 className="mt-2 font-display text-3xl font-bold">{level.title}</h1>
-        <p className="mx-auto mt-3 max-w-lg text-muted">
-          This mission is on the roadmap but not built yet. Planned interface: <strong className="text-cream">{level.ui}</strong>. Mechanic: {level.mechanic}.
-        </p>
-        <Link to="/dashboard" className="mt-8 inline-block rounded-xl border border-line px-6 py-3 font-bold hover:border-violet">Back to career map</Link>
       </div>
     </Shell>
   )
@@ -86,8 +73,14 @@ export default function LevelPage() {
         </div>
       </Shell>
     )
-  if (level.status === 'planned') return <PlannedLevel level={level} />
   if (locked || (level.tier === 'premium' && me.tier !== 'premium')) return <LockedLevel level={level} packId={packId} />
+
+  if (n >= 5)
+    return (
+      <Shell wide>
+        <Mission level={n} industry={preview || undefined} onFinished={(r) => navigate(`/report/${r.id}`)} />
+      </Shell>
+    )
 
   async function start() {
     setStarting(true)
@@ -120,6 +113,11 @@ export default function LevelPage() {
               ? 'You have 8 contacts and 2 research lookups. Gather evidence, rank the leads, then defend your ranking to your manager.'
               : 'Write in your own words, with no multiple choice. Use the tools, keep the CRM accurate and agree a real next step.'}
           </p>
+          <div className="mt-6 rounded-2xl border border-lime/40 bg-lime/5 p-4">
+            <p className="font-mono text-xs font-bold uppercase tracking-widest text-lime">How to play</p>
+            <ul className="mt-2 space-y-1 text-sm">{RULES[n].map((r) => <li key={r}>📌 {r}</li>)}</ul>
+            <p className="mt-2 text-xs text-muted">A coach bar will suggest your next move the whole time.</p>
+          </div>
           <ul className="mt-6 flex flex-wrap gap-2 font-mono text-[11px] uppercase tracking-wider">
             {[level.ui, ...pack.tools.slice(0, 3), n === 3 ? 'Push-to-talk voice' : null].filter(Boolean).map((t) => (
               <li key={t} className="rounded-full border border-line px-3 py-1.5 text-muted">{t}</li>

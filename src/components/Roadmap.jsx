@@ -8,8 +8,8 @@ export default function Roadmap() {
       <Reveal>
         <SectionHeading
           eyebrow="The career roadmap"
-          title="Fifteen levels. Four playable today."
-          intro="Levels 1–3 are free. Level 4 is a playable premium mission. Levels 5–15 are planned and not yet built."
+          title="Fifteen levels. All playable."
+          intro="Levels 1–3 are free. Levels 4–15 are premium. Each level has simple rules, a coach and hints, so you can always finish."
         />
       </Reveal>
       <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSim } from './useSim'
 import { Catalogue, CrmPanel, EngineBadge, NextStepBooker, QuoteBuilder, Signals } from './tools'
 import HintsPanel from './HintsPanel'
+import CoachBar from './CoachBar'
 
 // Level 2: industry-appropriate inbound inbox. The channel decides the look:
 // DM-style chat for social/WhatsApp/web chat, email threads for RFQs.
@@ -73,7 +74,9 @@ export default function Inbox({ session, setSession, onFinished }) {
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
+    <>
+    <CoachBar coach={session.coach} objectives={session.objectives} rules={session.rules} onUse={(t) => (setText(t), composerRef.current?.focus())} />
+    <div className="grid gap-4 lg:grid-cols-[1fr_340px] [&>*]:min-w-0">
       <div className="flex min-h-[70vh] flex-col overflow-hidden rounded-2xl border border-line bg-ink">
         <div className={`flex items-center gap-3 bg-gradient-to-r ${theme.header} px-4 py-3`}>
           <span className="grid h-10 w-10 place-items-center rounded-full bg-white/20 text-lg">{theme.icon}</span>
@@ -150,5 +153,6 @@ export default function Inbox({ session, setSession, onFinished }) {
         )}
       </aside>
     </div>
+    </>
   )
 }

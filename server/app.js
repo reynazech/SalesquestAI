@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { validateProfile } from '../src/training/options.js'
 import { createSimRouter, userTier } from './sim/routes.js'
 import { createBillingRouter } from './billing.js'
+import { createMissionRouter } from './missions/routes.js'
 import { aiEnabled } from './sim/customer.js'
 import {
   verifyGoogleCredential,
@@ -203,6 +204,7 @@ export function createApp({
 
   api.use('/sim', createSimRouter({ db, isAdmin }))
   api.use('/billing', createBillingRouter({ db, priceAed: demoPriceAed }))
+  api.use('/missions', createMissionRouter({ db, isAdmin }))
 
   api.use((_req, res) => res.status(404).json({ error: 'Not found' }))
   app.use('/api', api)

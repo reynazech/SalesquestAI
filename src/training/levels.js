@@ -1,6 +1,6 @@
 // The 15-level career map. Shared by the API (access checks) and the UI.
-// status: 'playable' levels are fully built; 'planned' levels are shown on the
-// map but cannot be started (the API refuses them too).
+// status: every level is playable. Levels 2-4 are free-form simulations;
+// Levels 5-15 are guided missions (server/missions).
 
 export const FREE_LEVELS = [1, 2, 3]
 export const isPremiumLevel = (n) => !FREE_LEVELS.includes(n)
@@ -10,17 +10,17 @@ export const levels = [
   { n: 2, key: 'inbox', title: 'Social Sales Inbox', mechanic: 'Free-text messaging, product cards, CRM notes', ui: 'Messaging inbox', status: 'playable' },
   { n: 3, key: 'call', title: 'Call Console', mechanic: 'Push-to-talk voice call with captions', ui: 'Call console', status: 'playable' },
   { n: 4, key: 'triage', title: 'Lead Triage War Room', mechanic: 'Investigate, rank and defend five leads', ui: 'Lead command center', status: 'playable' },
-  { n: 5, key: 'showroom', title: 'Showroom / Product Demo', mechanic: 'Catalogue comparison and spoken demo', ui: 'Product showroom', status: 'planned' },
-  { n: 6, key: 'ghosted', title: 'Ghosted Lead', mechanic: 'Timeline-based follow-ups', ui: 'Follow-up timeline', status: 'planned' },
-  { n: 7, key: 'referral', title: 'Referral Network', mechanic: 'Relationship mapping', ui: 'Relationship map', status: 'planned' },
-  { n: 8, key: 'complaint', title: 'Complaint Desk', mechanic: 'Emotional voice call and escalation', ui: 'Service desk', status: 'planned' },
-  { n: 9, key: 'exhibition', title: 'Exhibition Floor', mechanic: 'Rapid voice conversations, lead capture', ui: 'Event floor', status: 'planned' },
-  { n: 10, key: 'negotiation', title: 'Negotiation Desk', mechanic: 'Pricing calculator, discount limits, approvals', ui: 'Deal desk', status: 'planned' },
-  { n: 11, key: 'corporate-demo', title: 'Corporate Demo', mechanic: 'Video meeting with several stakeholders', ui: 'Meeting room', status: 'planned' },
-  { n: 12, key: 'rfq', title: 'RFQ / Proposal Challenge', mechanic: 'Requirements, compliant quote, proposal', ui: 'Proposal builder', status: 'planned' },
-  { n: 13, key: 'pipeline', title: 'Pipeline Review', mechanic: 'CRM analytics and forecast review', ui: 'Pipeline analytics', status: 'planned' },
-  { n: 14, key: 'enterprise', title: 'Enterprise Deal', mechanic: 'Stakeholders, procurement, revisions', ui: 'Deal room', status: 'planned' },
-  { n: 15, key: 'cockpit', title: 'Sales Operations Cockpit', mechanic: 'A full simulated working day', ui: 'Operations cockpit', status: 'planned' },
+  { n: 5, key: 'showroom', title: 'Showroom / Product Demo', mechanic: 'Match products to needs and run a demo', ui: 'Product showroom', status: 'playable' },
+  { n: 6, key: 'ghosted', title: 'Ghosted Lead', mechanic: 'Plan follow-ups and win back a silent lead', ui: 'Follow-up timeline', status: 'playable' },
+  { n: 7, key: 'referral', title: 'Referral Network', mechanic: 'Ask for referrals and qualify new buyers', ui: 'Relationship map', status: 'playable' },
+  { n: 8, key: 'complaint', title: 'Complaint Desk', mechanic: 'Calm an upset customer, fix or escalate', ui: 'Service desk', status: 'playable' },
+  { n: 9, key: 'exhibition', title: 'Exhibition Floor', mechanic: 'Prioritise visitors and plan follow-ups', ui: 'Event floor', status: 'playable' },
+  { n: 10, key: 'negotiation', title: 'Negotiation Desk', mechanic: 'Pricing calculator, discount limits, approvals', ui: 'Deal desk', status: 'playable' },
+  { n: 11, key: 'corporate-demo', title: 'Corporate Demo', mechanic: 'Win over technical and business stakeholders', ui: 'Meeting room', status: 'playable' },
+  { n: 12, key: 'rfq', title: 'RFQ / Proposal Challenge', mechanic: 'Requirements, compliant quote, proposal', ui: 'Proposal builder', status: 'playable' },
+  { n: 13, key: 'pipeline', title: 'Pipeline Review', mechanic: 'CRM analytics and forecast review', ui: 'Pipeline analytics', status: 'playable' },
+  { n: 14, key: 'enterprise', title: 'Enterprise Deal', mechanic: 'Stakeholders, procurement, revisions', ui: 'Deal room', status: 'playable' },
+  { n: 15, key: 'cockpit', title: 'Sales Operations Cockpit', mechanic: 'A full simulated working day', ui: 'Operations cockpit', status: 'playable' },
 ].map((l) => ({ ...l, tier: isPremiumLevel(l.n) ? 'premium' : 'free' }))
 
 export const getLevel = (n) => levels.find((l) => l.n === Number(n)) || null
