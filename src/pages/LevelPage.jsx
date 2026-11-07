@@ -110,7 +110,7 @@ export default function LevelPage() {
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-cream/90">{m.brief}</p>
           <p className="mt-3 max-w-2xl text-muted">
             You sell for <strong className="text-cream">{pack.seller}</strong> (fictional). {n === 4
-              ? 'You have 8 contacts and 2 research lookups. Gather evidence, rank the leads, then defend your ranking to your manager.'
+              ? 'You have 12 messages and 5 research lookups. Gather evidence, rank the leads, then defend your ranking to your manager.'
               : 'Write in your own words, with no multiple choice. Use the tools, keep the CRM accurate and agree a real next step.'}
           </p>
           <div className="mt-6 rounded-2xl border border-lime/40 bg-lime/5 p-4">

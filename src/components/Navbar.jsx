@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 
 const links = [
+  { href: '/#demo', label: 'Demo' },
   { href: '/#problem', label: 'Problem' },
   { href: '/#how', label: 'How it works' },
   { href: '/#roadmap', label: 'Roadmap' },

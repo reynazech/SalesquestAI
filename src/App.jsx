@@ -7,6 +7,7 @@ import Roadmap from './components/Roadmap'
 import Game from './components/Game'
 import Vision from './components/Vision'
 import About from './components/About'
+import DemoVideo from './components/DemoVideo'
 import { useAuth } from './auth/AuthContext'
 import SignIn from './pages/SignIn'
 import Onboarding from './pages/Onboarding'
@@ -21,6 +22,7 @@ function Home() {
     <>
       <main>
         <Hero />
+        <DemoVideo />
         <Story />
         <Roadmap />
         <Game />

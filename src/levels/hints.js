@@ -80,7 +80,7 @@ export function hintsFor(level, packId, customerName = 'there') {
     }
 
   return {
-    intro: 'Rank by evidence, not first impressions. You have 8 contacts: spend them where you know least.',
+    intro: 'Rank by evidence, not first impressions. You have 12 messages: spend them where you know least.',
     steps: [
       { title: 'Don’t trust the surface', tip: 'A one-word comment or a personal email can hide a large account. Use Research on the least-known leads.', examples: [] },
       { title: 'Qualify need and fit', tip: 'Send to the selected lead.', examples: [`Thanks for reaching out! What are you hoping to solve, and roughly how many ${v.units} would this involve?`], target: 'message' },

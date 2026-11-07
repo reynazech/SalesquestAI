@@ -12,7 +12,7 @@ export default function Hero() {
         <div className="animate-fade-up">
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-ink-2/80 px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-widest text-violet-soft">
             <span className="h-2 w-2 animate-pulse rounded-full bg-lime" />
-            Concept prototype · Level 1 playable
+            Concept prototype · 15 playable levels
           </span>
           <h1 className="mt-6 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl md:text-7xl">
             SalesQuest <span className="text-lime">AI</span>
@@ -41,6 +41,9 @@ export default function Hero() {
           <Link to="/onboarding" className="mt-5 inline-block text-sm font-bold text-violet-soft underline-offset-4 hover:text-lime hover:underline">
             ✦ Personalise your career path: Levels 2–3 are free →
           </Link>
+          <a href="#demo" className="mt-2 block text-sm font-bold text-lime underline-offset-4 hover:underline">
+            ▶ Watch the 2-minute demo
+          </a>
         </div>
 
         {/* Mock game preview card */}

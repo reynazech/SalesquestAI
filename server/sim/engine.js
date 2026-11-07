@@ -32,7 +32,7 @@ const FALSE_CLAIMS = [
   /\bno one else\b/i,
   /\bnever (breaks|fails)\b/i,
 ]
-const EMPATHY = /\b(understand|makes sense|fair (point|question|enough)|i hear you|totally get|appreciate|sorry|good question|that's important|you're right)\b/i
+const EMPATHY = /\b(understand|makes sense|fair (point|question|enough|concern)|valid (point|concern)|i hear you|totally get|appreciate|sorry|good question|that's important|that’s important|you're right|you’re right)\b/i
 const VALUE = /\b(save|saves|saving|hours|cost of|value|return|roi|because|which means|so that|benefit|warranty|tested|certif|datasheet|reviews?|case study|trial|pilot)\b/i
 const NEXT_STEP = /\b(book|schedule|set up|arrange|meet|visit|viewing|demo|call|tour|trial|pilot|send (you|over)|quote|quotation|come (in|by|to|over)|drop by|pop in|showroom|test|site)\b.*\b(today|tomorrow|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|next week|\d{1,2}(:\d{2})?\s?(am|pm)|at \d)/i
 

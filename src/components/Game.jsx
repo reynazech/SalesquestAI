@@ -93,7 +93,7 @@ export default function Game() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <Eyebrow>Level 1 · The only playable MVP</Eyebrow>
+            <Eyebrow>Level 1 · Training Lab · Free</Eyebrow>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-5xl">{scenario.title}</h2>
           </div>
           {phase === 'playing' && (
