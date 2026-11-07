@@ -42,7 +42,7 @@ export default function Hero() {
             ✦ Personalise your career path: Levels 2–3 are free →
           </Link>
           <a href="#demo" className="mt-2 block text-sm font-bold text-lime underline-offset-4 hover:underline">
-            ▶ Watch the 2-minute demo
+            ▶ Watch the 4-minute demo
           </a>
         </div>
 
